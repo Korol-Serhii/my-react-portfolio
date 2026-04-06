@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Search, SlidersHorizontal, ShoppingBag, Heart, Home, User, 
   ArrowRight, Menu, Minus, Plus, CreditCard, Settings, 
-  LogOut, MapPin, Bell, ChevronRight, X, Mail, Lock
+  LogOut, MapPin, Bell, ChevronRight, X, Mail, Lock, ImageOff
 } from 'lucide-react';
 
 // --- MOCK DATABASE (MOCK DB) ---
@@ -30,7 +30,7 @@ const INITIAL_DB = {
       name: 'Драцена',
       category: 'Кімнатні',
       price: 45,
-      image: 'https://images.unsplash.com/photo-1596547609858-69df6d3890a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60',
+      image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=500&q=60',
       description: 'Елегантна рослина з довгим листям.'
     },
     {
@@ -113,6 +113,29 @@ const ProfileMenuItem = ({ icon: Icon, label, sub, badge, isDanger, onClick }) =
     {!badge && !isDanger && <ChevronRight className="w-4 h-4 text-gray-300" />}
   </button>
 );
+
+const SmartImage = ({ src, alt, className }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div className={`${className} bg-gray-100 flex items-center justify-center`}>
+        <ImageOff className="w-8 h-8 text-gray-400" />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      loading="lazy"
+      referrerPolicy="no-referrer"
+      onError={() => setHasError(true)}
+    />
+  );
+};
 
 // --- MAIN COMPONENT ---
 
@@ -359,11 +382,11 @@ export default function App() {
           ))}
         </div>
 
-        <div className="flex overflow-x-auto px-6 gap-6 pb-8 pt-2 scrollbar-hide snap-x">
+        <div className="flex overflow-x-auto px-6 gap-4 pb-8 pt-2 scrollbar-hide snap-x snap-mandatory scroll-smooth">
           {filteredPlants.length > 0 ? filteredPlants.map((plant) => (
             <div 
               key={plant.id} 
-              className="snap-center shrink-0 w-56 h-80 bg-gray-100 rounded-3xl p-4 relative group cursor-pointer transition-all hover:shadow-lg duration-300"
+              className="snap-start shrink-0 w-[82%] sm:w-56 h-80 bg-gray-100 rounded-3xl p-4 relative group cursor-pointer transition-all hover:shadow-lg duration-300 flex flex-col"
             >
               <button 
                 onClick={(e) => { e.stopPropagation(); toggleLike(plant.id); }}
@@ -372,14 +395,14 @@ export default function App() {
                 <Heart className={`w-4 h-4 transition-colors ${isLiked(plant.id) ? 'text-red-500 fill-red-500' : 'text-gray-600'}`} />
               </button>
               
-              <div className="h-44 w-full mb-4 flex items-center justify-center relative">
-                 <img src={plant.image} alt={plant.name} className="h-full w-full object-cover rounded-2xl shadow-md transform group-hover:scale-105 transition-transform duration-500" />
+              <div className="h-44 w-full mb-4 flex items-center justify-center relative overflow-hidden rounded-2xl bg-white">
+                 <SmartImage src={plant.image} alt={plant.name} className="h-full w-full object-cover shadow-md transform group-hover:scale-105 transition-transform duration-500" />
               </div>
 
-              <div className="space-y-1">
-                  <span className="text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md uppercase tracking-wider">{plant.category}</span>
-                  <h3 className="text-lg font-bold text-gray-800">{plant.name}</h3>
-                  <div className="flex justify-between items-center mt-2">
+              <div className="space-y-1 mt-auto">
+                  <span className="inline-block text-xs font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-md uppercase tracking-wider">{plant.category}</span>
+                  <h3 className="text-lg font-bold text-gray-800 leading-tight truncate">{plant.name}</h3>
+                  <div className="flex justify-between items-center mt-2 gap-2">
                     <span className="text-xl font-bold text-gray-900">${plant.price}</span>
                     <button onClick={() => addToCart(plant)} className="bg-gray-900 hover:bg-green-500 text-white p-2 rounded-xl transition-colors">
                        <ShoppingBag className="w-4 h-4" />
@@ -399,10 +422,10 @@ export default function App() {
           <div className="space-y-4">
              {plants.slice(0, 3).map(plant => (
                <div key={`recent-${plant.id}`} className="flex items-center gap-4 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-                  <img src={plant.image} alt={plant.name} className="w-16 h-16 rounded-xl object-cover" />
+                  <SmartImage src={plant.image} alt={plant.name} className="w-16 h-16 rounded-xl object-cover bg-gray-100" />
                   <div className="flex-1">
                      <h4 className="font-bold text-gray-800">{plant.name}</h4>
-                     <p className="text-xs text-gray-400 line-clamp-1">{plant.description}</p>
+                     <p className="text-xs text-gray-400 truncate">{plant.description}</p>
                   </div>
                   <span className="font-bold text-green-600">${plant.price}</span>
                </div>
@@ -431,7 +454,7 @@ export default function App() {
                 <button onClick={() => toggleLike(plant.id)} className="absolute top-3 right-3 bg-red-50 p-2 rounded-full">
                   <Heart className="w-4 h-4 text-red-500 fill-red-500" />
                 </button>
-                <img src={plant.image} className="w-full h-32 object-cover rounded-xl mb-3 shadow-sm" alt={plant.name}/>
+                <SmartImage src={plant.image} className="w-full h-32 object-cover rounded-xl mb-3 shadow-sm bg-gray-100" alt={plant.name}/>
                 <h3 className="font-bold text-gray-800">{plant.name}</h3>
                 <div className="flex justify-between items-center mt-2">
                   <span className="text-green-600 font-bold">${plant.price}</span>
@@ -469,7 +492,7 @@ export default function App() {
               <div className="space-y-4">
                 {fullCart.map(item => (
                   <div key={item.id} className="flex gap-4 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 items-center">
-                    <img src={item.image} alt={item.name} className="w-20 h-20 rounded-xl object-cover" />
+                    <SmartImage src={item.image} alt={item.name} className="w-20 h-20 rounded-xl object-cover bg-gray-100" />
                     <div className="flex-1">
                       <h4 className="font-bold text-gray-800">{item.name}</h4>
                       <p className="text-sm text-green-600 font-semibold">${item.price}</p>

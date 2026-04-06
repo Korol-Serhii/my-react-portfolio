@@ -5,17 +5,23 @@
   "type": "module",
   "scripts": {
     "dev": "node node_modules/vite/bin/vite.js",
-    "build": "node node_modules/vite/bin/vite.js build",
-    "preview": "node node_modules/vite/bin/vite.js preview"
+    "build": "tsc --noEmit && node node_modules/vite/bin/vite.js build",
+    "preview": "node node_modules/vite/bin/vite.js preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "i18next": "^25.6.0",
+    "i18next-browser-languagedetector": "^8.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-i18next": "^16.1.0",
+    "react-router-dom": "^6.30.1",
     "lucide-react": "^0.294.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "typescript": "^5.9.3",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",

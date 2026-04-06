@@ -11,11 +11,12 @@ import {
   MoreVertical,
   UserPlus,
   UserMinus,
+  Menu,
   Check,
   X,
   Trash2
 } from 'lucide-react';
-import { 
+import {
   initDatabase, 
   getCurrentUser, 
   getAllUsers, 
@@ -29,8 +30,8 @@ import {
   createChat,
   chatExists,
   deleteChat
-} from './db/database';
-import { translations, getTranslation } from './utils/translations';
+} from './lib/db/database';
+import { getTranslation } from './shared/utils/translations';
 
 // --- COMPONENTS ---
 
@@ -270,6 +271,7 @@ export default function App() {
   const [showThemeModal, setShowThemeModal] = useState(false);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const messagesEndRef = useRef(null);
 
   // Apply theme
@@ -485,8 +487,46 @@ export default function App() {
 
   return (
     <div className={`flex h-screen ${theme === 'dark' ? 'bg-[#0e1621] text-white' : 'bg-gray-100 text-gray-900'} font-sans overflow-hidden`}>
+      <button
+        onClick={() => setShowMobileMenu(prev => !prev)}
+        className={`md:hidden fixed top-4 left-4 z-[60] p-2 rounded-lg transition-all duration-300 ${
+          theme === 'dark' ? 'bg-[#17212b] text-white' : 'bg-white text-gray-900'
+        }`}
+      >
+        <Menu size={20} />
+      </button>
+
+      {showMobileMenu && (
+        <div
+          className="fixed inset-0 z-50 bg-black/40 md:hidden transition-all duration-300"
+          onClick={() => setShowMobileMenu(false)}
+        >
+          <div
+            className={`w-72 h-full p-4 transition-all duration-300 ${
+              theme === 'dark' ? 'bg-[#17212b]' : 'bg-white'
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="space-y-2 mt-10">
+              <Button onClick={() => { setActiveTab('chats'); setShowMobileMenu(false); }} className="w-full" variant="secondary" theme={theme}>
+                {getTranslation('chats', language)}
+              </Button>
+              <Button onClick={() => { setActiveTab('users'); setShowMobileMenu(false); }} className="w-full" variant="secondary" theme={theme}>
+                {getTranslation('users', language)}
+              </Button>
+              <Button onClick={() => { setActiveTab('settings'); setSelectedChatId(null); setShowMobileMenu(false); }} className="w-full" variant="secondary" theme={theme}>
+                {getTranslation('settings', language)}
+              </Button>
+              <Button onClick={handleLogout} className="w-full mt-4" variant="primary" theme={theme}>
+                {getTranslation('logout', language)}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* --- SIDEBAR --- */}
-      <div className={`w-20 ${theme === 'dark' ? 'bg-[#17212b] border-[#242f3d]' : 'bg-white border-gray-200'} border-r flex flex-col items-center py-6 flex-shrink-0 z-20`}>
+      <div className={`hidden md:flex w-20 ${theme === 'dark' ? 'bg-[#17212b] border-[#242f3d]' : 'bg-white border-gray-200'} border-r flex-col items-center py-6 flex-shrink-0 z-20`}>
         <div className="w-10 h-10 bg-[#0088cc] rounded-lg flex items-center justify-center mb-8 shadow-md">
           <MessageSquare className="text-white w-6 h-6" />
         </div>
@@ -524,7 +564,7 @@ export default function App() {
       </div>
 
       {/* --- SECONDARY SIDEBAR (LISTS) --- */}
-      <div className={`w-80 ${theme === 'dark' ? 'bg-[#17212b] border-[#242f3d]' : 'bg-white border-gray-200'} border-r flex flex-col flex-shrink-0`}>
+      <div className={`hidden md:flex w-80 ${theme === 'dark' ? 'bg-[#17212b] border-[#242f3d]' : 'bg-white border-gray-200'} border-r flex-col flex-shrink-0`}>
         <div className={`p-4 border-b ${theme === 'dark' ? 'border-[#242f3d]' : 'border-gray-200'}`}>
           <h2 className={`text-xl font-semibold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
             {activeTab === 'chats' && getTranslation('messages', language)}

@@ -1,247 +1,85 @@
-# LinkUp - Modern Messenger Application
+# LinkUp
 
-A modern, feature-rich messaging application built with React and Vite, featuring a beautiful dark/light theme interface inspired by popular messaging platforms like Telegram and Discord.
+LinkUp — локальний месенджер на `Vite + React + TypeScript + Tailwind CSS` з темами, роутингом та двомовністю (`uk`/`en`).
 
 ![LinkUp Messenger](Foto.png)
 
-## 📋 Table of Contents
+## Поточна структура проєкту
 
-- [Features](#-features)
-- [Technologies](#-technologies)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Database](#-database)
-- [UI/UX](#-uiux)
-- [Development](#-development)
-- [Future Improvements](#-future-improvements)
+Проєкт приведено до єдиної структури React-додатку:
 
-## ✨ Features
-
-### 🔐 Authentication
-- User login and registration
-- Session persistence using localStorage
-- User profile management
-
-### 💬 Messaging
-- Real-time chat interface
-- Message history with timestamps
-- Unread message counter
-- Auto-scroll to latest messages
-- Simulated auto-replies for demo purposes
-
-### 👥 User Management
-- User list with online/offline/idle status indicators
-- Add/remove friends functionality
-- Quick access to start conversations
-- User profile cards with avatars
-
-### ⚙️ Settings
-- Profile customization
-- Multi-language support (Ukrainian/English)
-- Dark/Light theme switcher
-- Notification preferences (placeholder)
-- Privacy settings (placeholder)
-
-### 🎨 Interface
-- Modern, responsive design
-- Smooth animations and transitions
-- Telegram/Discord-inspired UI
-- Customizable color schemes
-- Tooltips and interactive elements
-
-## 🛠️ Technologies
-
-- **React 18.2.0** - UI library for building user interfaces
-- **Vite 5.0.8** - Fast build tool and development server
-- **Tailwind CSS 3.3.6** - Utility-first CSS framework
-- **SQL.js 1.10.3** - SQLite database running in the browser
-- **Lucide React 0.294.0** - Beautiful icon library
-- **PostCSS** - CSS processing tool
-- **Autoprefixer** - CSS vendor prefixing
-
-## 📁 Project Structure
-
-```
-LinkUp/
-├── src/
-│   ├── App.jsx              # Main application component
-│   ├── main.jsx              # Application entry point
-│   ├── index.css             # Global styles and Tailwind imports
-│   ├── db/
-│   │   └── database.js       # SQL.js database operations
-│   └── utils/
-│       └── translations.js   # Multi-language translation system
-├── index.html                # HTML template
-├── package.json              # Dependencies and scripts
-├── vite.config.js           # Vite configuration
-├── tailwind.config.js       # Tailwind CSS configuration
-├── postcss.config.js        # PostCSS configuration
-└── Foto.png                  # Application screenshot
+```text
+src/
+├── app/                 # App.tsx
+├── pages/               # сторінки (Home.tsx)
+├── components/          # UI-компоненти
+├── features/            # feature-модулі
+├── shared/              # ui, hooks, utils, constants, types
+├── assets/              # іконки/зображення
+├── i18n/                # i18n.ts + locales
+│   └── locales/
+│       ├── uk/common.json
+│       └── en/common.json
+├── router/              # router.tsx
+├── styles/              # global.css + Tailwind
+└── lib/                 # інфраструктурний код (db тощо)
 ```
 
-## 🚀 Getting Started
+## Що вже реалізовано за стандартами
 
-### Prerequisites
+- TypeScript у strict-режимі через `tsconfig.json`.
+- i18n на `react-i18next` + `i18next-browser-languagedetector`.
+- Мова за замовчуванням і fallback: `uk`.
+- Роутинг у `src/router/router.tsx` з lazy loading (`React.lazy` + `Suspense`).
+- Точка входу: `src/main.tsx`.
+- Глобальні responsive/transition стилі в `src/styles/global.css`.
+- Файл прикладу змінних середовища: `.env.example`.
 
-- Node.js (v16 or higher)
-- npm or yarn package manager
+## Технології
 
-### Installation
+- `react`, `react-dom`
+- `vite`, `typescript`
+- `tailwindcss`, `postcss`, `autoprefixer`
+- `react-router-dom`
+- `i18next`, `react-i18next`, `i18next-browser-languagedetector`
+- `sql.js`
+- `lucide-react`
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd LinkUp
-```
+## Запуск проєкту
 
-2. Install dependencies:
 ```bash
 npm install
-```
-
-### Development
-
-Start the development server:
-```bash
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+## Збірка
 
-### Production Build
-
-Build the project for production:
 ```bash
 npm run build
-```
-
-The optimized files will be in the `dist/` directory.
-
-### Preview Production Build
-
-Preview the production build locally:
-```bash
 npm run preview
 ```
 
-## 💾 Database
+## i18n
 
-LinkUp uses **SQL.js** - a JavaScript port of SQLite that runs entirely in the browser. All data is stored locally in the browser's localStorage.
+- Локалі зберігаються в:
+  - `src/i18n/locales/uk/common.json`
+  - `src/i18n/locales/en/common.json`
+- Детекція мови:
+  - `localStorage` (`linkup_language`)
+  - `navigator.language`
 
-### Database Schema
+## Роутинг
 
-- **users** - User profiles and information
-- **chats** - Chat conversations
-- **messages** - Individual messages in chats
-- **current_user** - Currently logged-in user
+- Конфігурація маршрутів: `src/router/router.tsx`
+- Підключення роутера: `src/app/App.tsx`
+- Поточний маршрут: `/` -> `Home`
 
-### Key Features
+## Змінні середовища
 
-- Automatic database initialization
-- Seed data for demo purposes
-- Persistent storage via localStorage
-- Full CRUD operations for all entities
+```env
+VITE_APP_NAME=LinkUp
+```
 
-### Database Functions
+## Примітка
 
-- `initDatabase()` - Initialize or load existing database
-- `getCurrentUser()` - Get logged-in user
-- `getAllUsers()` - Retrieve all users
-- `getAllChats()` - Get all chat conversations
-- `getChatMessages(chatId)` - Get messages for a specific chat
-- `addMessage()` - Add new message to chat
-- `createChat()` - Create new chat conversation
-- `deleteChat()` - Remove chat and all messages
-- `registerUser()` - Register new user account
-
-## 🎨 UI/UX
-
-### Design Philosophy
-
-The interface is inspired by modern messaging platforms with:
-- Clean, minimalist design
-- Intuitive navigation
-- Smooth animations
-- Responsive layout
-- Accessible color schemes
-
-### Theme Support
-
-- **Light Theme** - Clean, bright interface
-- **Dark Theme** - Easy on the eyes, modern look
-- Automatic theme persistence
-- Smooth theme transitions
-
-### Components
-
-- **Avatar** - User profile pictures with status indicators
-- **Button** - Reusable button component with variants
-- **Input** - Styled input fields with theme support
-- **SidebarIcon** - Navigation icons with tooltips
-- **LoginScreen** - Authentication interface
-
-## 🔧 Development
-
-### Code Organization
-
-The project follows a component-based architecture:
-- Reusable UI components
-- Centralized state management
-- Utility functions for database operations
-- Translation system for internationalization
-
-### Key Features Implementation
-
-1. **State Management**: React hooks (useState, useEffect)
-2. **Database Operations**: SQL.js with prepared statements
-3. **Styling**: Tailwind CSS with custom utilities
-4. **Icons**: Lucide React icon library
-5. **Translations**: Custom translation system
-
-## 🚧 Future Improvements
-
-### Critical
-- [ ] Refactor large components into smaller, reusable pieces
-- [ ] Add form validation for login/registration
-- [ ] Implement proper password hashing
-- [ ] Add comprehensive error handling
-
-### Enhancements
-- [ ] Add TypeScript for type safety
-- [ ] Implement unit and integration tests
-- [ ] Add React Router for navigation
-- [ ] Optimize database loading (lazy loading)
-- [ ] Add search and filter functionality
-- [ ] Implement file/image sharing
-- [ ] Add accessibility features (ARIA labels)
-- [ ] Implement real-time messaging with WebSockets
-- [ ] Add message reactions and emoji support
-- [ ] Implement message search functionality
-
-### Security
-- [ ] Input validation and sanitization
-- [ ] Password hashing (bcrypt)
-- [ ] XSS protection
-- [ ] Database size limits
-- [ ] Rate limiting
-
-## 📝 Notes
-
-This is a **demo version** of the application with mock data. For full production functionality, you would need to:
-- Connect to a backend API
-- Implement real-time messaging (WebSockets)
-- Add user authentication server
-- Set up cloud storage for media files
-- Implement push notifications
-
-## 📄 License
-
-This project is open source and available for educational purposes.
-
-## 👨‍💻 Author
-
-Built with ❤️ using React and modern web technologies.
-
----
-
-**Note**: The application stores all data locally in the browser. Clearing browser data will remove all chats and messages.
+Основна логіка інтерфейсу месенджера зараз інкапсульована у `src/App.jsx` і підключена через сторінку `src/pages/Home.tsx`. Це дозволяє рухатись поетапно: структура вже типізована та стандартизована, а деталізовану декомпозицію на дрібні TSX-компоненти можна виконувати без зміни UX.

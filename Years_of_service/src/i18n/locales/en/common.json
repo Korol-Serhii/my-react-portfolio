@@ -1,0 +1,41 @@
+{
+  "app": {
+    "title": "Service Calculator"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contacts",
+    "toggleMenu": "Toggle menu",
+    "switchLanguage": "Switch language"
+  },
+  "footer": {
+    "note": "Calculation is based on the 30-day month method."
+  },
+  "home": {
+    "title": "Years of Service Calculator",
+    "subtitle": "Calendar and preferential service with CSV/Excel export.",
+    "name": "Full name / Rank",
+    "dob": "Date of birth",
+    "export": "Export to Excel",
+    "addRow": "Add service period",
+    "table": {
+      "start": "Start",
+      "end": "End",
+      "ratio": "Ratio",
+      "calendar": "Calendar",
+      "preferential": "Preferential",
+      "actions": "Actions"
+    },
+    "totals": {
+      "calendar": "Total calendar",
+      "preferential": "Total preferential",
+      "years": "Years",
+      "months": "Months",
+      "days": "Days"
+    },
+    "errors": {
+      "dateOrder": "Start date is later than end date"
+    }
+  }
+}

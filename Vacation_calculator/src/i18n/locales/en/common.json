@@ -1,0 +1,37 @@
+{
+  "common": {
+    "days": "days"
+  },
+  "app": {
+    "title": "Vacation Calculator",
+    "subtitle": "Flexible vacation balance calculation"
+  },
+  "annual": {
+    "title": "Annual leave",
+    "info": "Set year, leave allowance, and used days.",
+    "year": "Year",
+    "yearLabel": "year",
+    "limit": "Allowance",
+    "used": "Used",
+    "add": "Add year to calculation",
+    "addedPeriods": "Added periods",
+    "total": "Total annual leave"
+  },
+  "ubd": {
+    "title": "Combatant leave",
+    "info": "Allowance is 14 days per year. Calculation is based on full period.",
+    "from": "From (year)",
+    "to": "To (year)",
+    "periodYears": "Period (years)",
+    "formula": "Formula",
+    "accrued": "Accrued days",
+    "used": "Used combatant leave days",
+    "hint": "Leave 0 if no combatant leave was used.",
+    "total": "Total combatant leave"
+  },
+  "result": {
+    "title": "Overall result",
+    "subtitle": "Total unused days (Annual + Combatant)",
+    "daysTotal": "days total"
+  }
+}
